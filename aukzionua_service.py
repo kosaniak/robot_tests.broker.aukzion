@@ -53,7 +53,7 @@ def convert_string_from_dict_aukzionua(string):
 
 def adapt_procuringEntity(role_name, tender_data):
     if role_name == 'tender_owner':
-        tender_data['data']['procuringEntity']['name'] = u"Опа-Опа"
+        tender_data['data']['procuringEntity']['name'] = u"Ольмек"
     return tender_data
 
 

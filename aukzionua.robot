@@ -46,10 +46,10 @@ Login
   ${number_of_items}=  Get Length  ${items}
   ${tenderAttempts}=   Convert To String   ${tender_data.data.tenderAttempts}
   Switch Browser  ${username}
-  Wait Until Page Contains Element  xpath=//a[@href="http://test-eauction.open-tender.com.ua/tenders"]  10
-  Click Element  xpath=//a[@href="http://test-eauction.open-tender.com.ua/tenders"]
-  Click Element  xpath=//a[@href="http://test-eauction.open-tender.com.ua/tenders/index"]
-  Click Element  xpath=//a[contains(@href,"http://test-eauction.open-tender.com.ua/buyer/tender/create")]
+  Wait Until Page Contains Element  xpath=//a[@href="http://torgi.aukzion.com.ua/tenders"]  10
+  Click Element  xpath=//a[@href="http://torgi.aukzion.com.ua/tenders"]
+  Click Element  xpath=//a[@href="http://torgi.aukzion.com.ua/tenders/index"]
+  Click Element  xpath=//a[contains(@href,"http://torgi.aukzion.com.ua/buyer/tender/create")]
   Select From List By Value  name=tender_method  open_${tender_data.data.procurementMethodType}
   Conv And Select From List By Value  name=Tender[value][valueAddedTaxIncluded]  ${tender_data.data.value.valueAddedTaxIncluded}
   ConvToStr And Input Text  name=Tender[value][amount]  ${tender_data.data.value.amount}
@@ -88,7 +88,7 @@ Login
   Input text  name=Tender[items][${index}][address][locality]  ${item.deliveryAddress.locality}
   Input text  name=Tender[items][${index}][address][streetAddress]  ${item.deliveryAddress.streetAddress}
   Input text  name=Tender[items][${index}][address][postalCode]  ${item.deliveryAddress.postalCode}
-  Select From List By Value  name=Tender[procuringEntity][contactPoint][fio]  18
+  Select From List By Value  name=Tender[procuringEntity][contactPoint][fio]  1
 
 Додати предмет закупівлі
   [Arguments]  ${username}  ${tender_uaid}  ${item}
@@ -165,9 +165,9 @@ Login
 Пошук тендера по ідентифікатору
   [Arguments]  ${username}  ${tender_uaid}
   Switch browser  ${username}
-  Go To  http://test-eauction.open-tender.com.ua
-  Click Element  xpath=//a[@href="http://test-eauction.open-tender.com.ua/tenders"]
-  Click Element  xpath=//a[@href="http://test-eauction.open-tender.com.ua/tenders/index"]
+  Go To  http://torgi.aukzion.com.ua
+  Click Element  xpath=//a[@href="http://torgi.aukzion.com.ua/tenders"]
+  Click Element  xpath=//a[@href="http://torgi.aukzion.com.ua/tenders/index"]
   Wait Until Element Is Visible  id=more-filter
   Wait Until Keyword Succeeds  10 x  0.4 s  Run Keywords
   ...  Click Element  id=more-filter
@@ -346,8 +346,8 @@ Login
   Wait Until Element Is Visible  name=delete_bids
   ${url}=  Log Location
   Run Keyword If  ${status}
-  ...  Go To  http://test-eauction.open-tender.com.ua/bids/send/${url.split('?')[0].split('/')[-1]}
-  ...  ELSE  Go To  http://test-eauction.open-tender.com.ua/bids/decline/${url.split('?')[0].split('/')[-1]}
+  ...  Go To  http://torgi.aukzion.com.ua/bids/send/${url.split('?')[0].split('/')[-1]}
+  ...  ELSE  Go To  http://torgi.aukzion.com.ua/bids/decline/${url.split('?')[0].split('/')[-1]}
   Go To  ${url}
   Wait Until Keyword Succeeds  6 x  30 s  Run Keywords
   ...  Reload Page
@@ -373,7 +373,7 @@ Login
   Click Element  xpath=//button[contains(text(), 'Відправити')]
   Wait Until Element Is Visible  name=delete_bids
   ${url}=  Log Location
-  Go To  http://test-eauction.open-tender.com.ua/bids/send/${url.split('?')[0].split('/')[-1]}
+  Go To  http://torgi.aukzion.com.ua/bids/send/${url.split('?')[0].split('/')[-1]}
   Go To  ${url}
 
 Завантажити документ в ставку
@@ -390,7 +390,7 @@ Login
   Click Element  xpath=//button[contains(text(), 'Відправити')]
   Wait Until Element Is Visible  name=delete_bids
   ${url}=  Log Location
-  Go To  http://test-eauction.open-tender.com.ua/bids/send/${url.split('?')[0].split('/')[-1]}
+  Go To  http://torgi.aukzion.com.ua/bids/send/${url.split('?')[0].split('/')[-1]}
   Go To  ${url}
 
 Завантажити фінансову ліцензію
@@ -438,7 +438,6 @@ Login
 
 Отримати кількість документів в ставці
   [Arguments]  ${username}  ${tender_uaid}  ${bid_index}
-#  Дочекатись синхронізації з майданчиком   ${username}
   aukzionua.Пошук тендера по ідентифікатору   ${username}  ${tender_uaid}
   Wait Until Element Is Visible  xpath=//a[text()='Таблиця квалiфiкацiї']
   Click Element  xpath=//a[text()='Таблиця квалiфiкацiї']
@@ -524,10 +523,6 @@ Input Date
   [Arguments]  ${elem_locator}  ${date}
   ${date}=  convert_datetime_to_aukzionua_format  ${date}
   Input Text  ${elem_locator}  ${date}
-
-Дочекатися вивантаження файлу до ЦБД
-  Reload Page
-  Wait Until Element Is Visible   xpath=//div[contains(text(), 'Замiнити')]
 
 Дочекатися завантаження файлу
   [Arguments]  ${doc_name}
